@@ -56,6 +56,7 @@
 /* USER CODE BEGIN Includes */
 
 #include <stdint.h>
+#include "controller.h"
 
 /* USER CODE END Includes */
 

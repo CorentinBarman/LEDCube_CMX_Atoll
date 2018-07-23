@@ -1,6 +1,0 @@
-led_control.c:36:6:LED_init_for_measures	24	static
-led_control.c:60:6:LED_measure_update	8	static
-led_control.c:90:6:LED_change_PWM_duty	16	static
-led_control.c:96:6:LED_change_pattern_data	16	static
-led_control.c:111:6:LED_change_pattern_interval	16	static
-led_control.c:116:6:LED_timer_interval_irq	16	static

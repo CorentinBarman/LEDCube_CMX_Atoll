@@ -25,25 +25,25 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   ALLOC
  10 .ARM.attributes 00000030  00000000  00000000  00020ae4  2**0
                   CONTENTS, READONLY
- 11 .debug_info   00027ed1  00000000  00000000  00020b14  2**0
+ 11 .debug_info   00027d7a  00000000  00000000  00020b14  2**0
                   CONTENTS, READONLY, DEBUGGING
- 12 .debug_abbrev 000049cb  00000000  00000000  000489e5  2**0
+ 12 .debug_abbrev 000049fb  00000000  00000000  0004888e  2**0
                   CONTENTS, READONLY, DEBUGGING
- 13 .debug_aranges 000016f8  00000000  00000000  0004d3b0  2**3
+ 13 .debug_aranges 000016f8  00000000  00000000  0004d290  2**3
                   CONTENTS, READONLY, DEBUGGING
- 14 .debug_ranges 00001500  00000000  00000000  0004eaa8  2**3
+ 14 .debug_ranges 00001500  00000000  00000000  0004e988  2**3
                   CONTENTS, READONLY, DEBUGGING
- 15 .debug_line   0000c2d9  00000000  00000000  0004ffa8  2**0
+ 15 .debug_line   0000c2c3  00000000  00000000  0004fe88  2**0
                   CONTENTS, READONLY, DEBUGGING
- 16 .debug_str    000068ce  00000000  00000000  0005c281  2**0
+ 16 .debug_str    000068d7  00000000  00000000  0005c14b  2**0
                   CONTENTS, READONLY, DEBUGGING
- 17 .comment      0000007c  00000000  00000000  00062b4f  2**0
+ 17 .comment      0000007c  00000000  00000000  00062a22  2**0
                   CONTENTS, READONLY
- 18 .debug_frame  00006abc  00000000  00000000  00062bcc  2**2
+ 18 .debug_frame  00006abc  00000000  00000000  00062aa0  2**2
                   CONTENTS, READONLY, DEBUGGING
- 19 .stab         000000cc  00000000  00000000  00069688  2**2
+ 19 .stab         000000cc  00000000  00000000  0006955c  2**2
                   CONTENTS, READONLY, DEBUGGING
- 20 .stabstr      000001b9  00000000  00000000  00069754  2**0
+ 20 .stabstr      000001b9  00000000  00000000  00069628  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -20200,6 +20200,7 @@ int main(void)
   {
 	  UserCode_While();
  8007b64:	f7ff f844 	bl	8006bf0 <UserCode_While>
+  {
  8007b68:	e7fc      	b.n	8007b64 <main+0x130>
  8007b6a:	bf00      	nop
  8007b6c:	40020800 	.word	0x40020800
@@ -20290,7 +20291,7 @@ void SystemClock_Config(void)
  8007c02:	d004      	beq.n	8007c0e <SystemClock_Config+0x7e>
   {
     _Error_Handler(__FILE__, __LINE__);
- 8007c04:	f240 1149 	movw	r1, #329	; 0x149
+ 8007c04:	f240 1147 	movw	r1, #327	; 0x147
  8007c08:	4825      	ldr	r0, [pc, #148]	; (8007ca0 <SystemClock_Config+0x110>)
  8007c0a:	f000 fe43 	bl	8008894 <_Error_Handler>
   }
@@ -20324,7 +20325,7 @@ void SystemClock_Config(void)
  8007c36:	d004      	beq.n	8007c42 <SystemClock_Config+0xb2>
   {
     _Error_Handler(__FILE__, __LINE__);
- 8007c38:	f240 1157 	movw	r1, #343	; 0x157
+ 8007c38:	f240 1155 	movw	r1, #341	; 0x155
  8007c3c:	4818      	ldr	r0, [pc, #96]	; (8007ca0 <SystemClock_Config+0x110>)
  8007c3e:	f000 fe29 	bl	8008894 <_Error_Handler>
   }
@@ -20347,7 +20348,7 @@ void SystemClock_Config(void)
  8007c5c:	d004      	beq.n	8007c68 <SystemClock_Config+0xd8>
   {
     _Error_Handler(__FILE__, __LINE__);
- 8007c5e:	f240 115f 	movw	r1, #351	; 0x15f
+ 8007c5e:	f240 115d 	movw	r1, #349	; 0x15d
  8007c62:	480f      	ldr	r0, [pc, #60]	; (8007ca0 <SystemClock_Config+0x110>)
  8007c64:	f000 fe16 	bl	8008894 <_Error_Handler>
   }
@@ -20438,7 +20439,7 @@ static void MX_I2C1_Init(void)
  8007cee:	d004      	beq.n	8007cfa <MX_I2C1_Init+0x52>
   {
     _Error_Handler(__FILE__, __LINE__);
- 8007cf0:	f240 117d 	movw	r1, #381	; 0x17d
+ 8007cf0:	f240 117b 	movw	r1, #379	; 0x17b
  8007cf4:	4805      	ldr	r0, [pc, #20]	; (8007d0c <MX_I2C1_Init+0x64>)
  8007cf6:	f000 fdcd 	bl	8008894 <_Error_Handler>
   }
@@ -20504,7 +20505,7 @@ static void MX_I2S3_Init(void)
  8007d58:	d004      	beq.n	8007d64 <MX_I2S3_Init+0x54>
   {
     _Error_Handler(__FILE__, __LINE__);
- 8007d5a:	f240 1191 	movw	r1, #401	; 0x191
+ 8007d5a:	f240 118f 	movw	r1, #399	; 0x18f
  8007d5e:	4805      	ldr	r0, [pc, #20]	; (8007d74 <MX_I2S3_Init+0x64>)
  8007d60:	f000 fd98 	bl	8008894 <_Error_Handler>
   }
@@ -20582,7 +20583,7 @@ static void MX_SPI1_Init(void)
  8007dd2:	d004      	beq.n	8007dde <MX_SPI1_Init+0x66>
   {
     _Error_Handler(__FILE__, __LINE__);
- 8007dd4:	f240 11a9 	movw	r1, #425	; 0x1a9
+ 8007dd4:	f240 11a7 	movw	r1, #423	; 0x1a7
  8007dd8:	4804      	ldr	r0, [pc, #16]	; (8007dec <MX_SPI1_Init+0x74>)
  8007dda:	f000 fd5b 	bl	8008894 <_Error_Handler>
   }
@@ -20640,7 +20641,7 @@ static void MX_TIM1_Init(void)
  8007e26:	d004      	beq.n	8007e32 <MX_TIM1_Init+0x42>
   {
     _Error_Handler(__FILE__, __LINE__);
- 8007e28:	f240 11bf 	movw	r1, #447	; 0x1bf
+ 8007e28:	f240 11bd 	movw	r1, #445	; 0x1bd
  8007e2c:	4850      	ldr	r0, [pc, #320]	; (8007f70 <MX_TIM1_Init+0x180>)
  8007e2e:	f000 fd31 	bl	8008894 <_Error_Handler>
   }
@@ -20658,7 +20659,7 @@ static void MX_TIM1_Init(void)
  8007e48:	d004      	beq.n	8007e54 <MX_TIM1_Init+0x64>
   {
     _Error_Handler(__FILE__, __LINE__);
- 8007e4a:	f240 11c5 	movw	r1, #453	; 0x1c5
+ 8007e4a:	f240 11c3 	movw	r1, #451	; 0x1c3
  8007e4e:	4848      	ldr	r0, [pc, #288]	; (8007f70 <MX_TIM1_Init+0x180>)
  8007e50:	f000 fd20 	bl	8008894 <_Error_Handler>
   }
@@ -20671,7 +20672,7 @@ static void MX_TIM1_Init(void)
  8007e5e:	d004      	beq.n	8007e6a <MX_TIM1_Init+0x7a>
   {
     _Error_Handler(__FILE__, __LINE__);
- 8007e60:	f44f 71e5 	mov.w	r1, #458	; 0x1ca
+ 8007e60:	f44f 71e4 	mov.w	r1, #456	; 0x1c8
  8007e64:	4842      	ldr	r0, [pc, #264]	; (8007f70 <MX_TIM1_Init+0x180>)
  8007e66:	f000 fd15 	bl	8008894 <_Error_Handler>
   }
@@ -20692,7 +20693,7 @@ static void MX_TIM1_Init(void)
  8007e82:	d004      	beq.n	8007e8e <MX_TIM1_Init+0x9e>
   {
     _Error_Handler(__FILE__, __LINE__);
- 8007e84:	f240 11d1 	movw	r1, #465	; 0x1d1
+ 8007e84:	f240 11cf 	movw	r1, #463	; 0x1cf
  8007e88:	4839      	ldr	r0, [pc, #228]	; (8007f70 <MX_TIM1_Init+0x180>)
  8007e8a:	f000 fd03 	bl	8008894 <_Error_Handler>
   }
@@ -20729,7 +20730,7 @@ static void MX_TIM1_Init(void)
  8007ebc:	d004      	beq.n	8007ec8 <MX_TIM1_Init+0xd8>
   {
     _Error_Handler(__FILE__, __LINE__);
- 8007ebe:	f240 11dd 	movw	r1, #477	; 0x1dd
+ 8007ebe:	f240 11db 	movw	r1, #475	; 0x1db
  8007ec2:	482b      	ldr	r0, [pc, #172]	; (8007f70 <MX_TIM1_Init+0x180>)
  8007ec4:	f000 fce6 	bl	8008894 <_Error_Handler>
   }
@@ -20745,7 +20746,7 @@ static void MX_TIM1_Init(void)
  8007eda:	d004      	beq.n	8007ee6 <MX_TIM1_Init+0xf6>
   {
     _Error_Handler(__FILE__, __LINE__);
- 8007edc:	f44f 71f1 	mov.w	r1, #482	; 0x1e2
+ 8007edc:	f44f 71f0 	mov.w	r1, #480	; 0x1e0
  8007ee0:	4823      	ldr	r0, [pc, #140]	; (8007f70 <MX_TIM1_Init+0x180>)
  8007ee2:	f000 fcd7 	bl	8008894 <_Error_Handler>
   }
@@ -20761,7 +20762,7 @@ static void MX_TIM1_Init(void)
  8007ef8:	d004      	beq.n	8007f04 <MX_TIM1_Init+0x114>
   {
     _Error_Handler(__FILE__, __LINE__);
- 8007efa:	f240 11e7 	movw	r1, #487	; 0x1e7
+ 8007efa:	f240 11e5 	movw	r1, #485	; 0x1e5
  8007efe:	481c      	ldr	r0, [pc, #112]	; (8007f70 <MX_TIM1_Init+0x180>)
  8007f00:	f000 fcc8 	bl	8008894 <_Error_Handler>
   }
@@ -20777,7 +20778,7 @@ static void MX_TIM1_Init(void)
  8007f16:	d004      	beq.n	8007f22 <MX_TIM1_Init+0x132>
   {
     _Error_Handler(__FILE__, __LINE__);
- 8007f18:	f44f 71f6 	mov.w	r1, #492	; 0x1ec
+ 8007f18:	f44f 71f5 	mov.w	r1, #490	; 0x1ea
  8007f1c:	4814      	ldr	r0, [pc, #80]	; (8007f70 <MX_TIM1_Init+0x180>)
  8007f1e:	f000 fcb9 	bl	8008894 <_Error_Handler>
   }
@@ -20813,7 +20814,7 @@ static void MX_TIM1_Init(void)
  8007f4e:	d004      	beq.n	8007f5a <MX_TIM1_Init+0x16a>
   {
     _Error_Handler(__FILE__, __LINE__);
- 8007f50:	f44f 71fc 	mov.w	r1, #504	; 0x1f8
+ 8007f50:	f44f 71fb 	mov.w	r1, #502	; 0x1f6
  8007f54:	4806      	ldr	r0, [pc, #24]	; (8007f70 <MX_TIM1_Init+0x180>)
  8007f56:	f000 fc9d 	bl	8008894 <_Error_Handler>
   }
@@ -20872,7 +20873,7 @@ static void MX_TIM2_Init(void)
  8007fa6:	d004      	beq.n	8007fb2 <MX_TIM2_Init+0x3e>
   {
     _Error_Handler(__FILE__, __LINE__);
- 8007fa8:	f240 210e 	movw	r1, #526	; 0x20e
+ 8007fa8:	f44f 7103 	mov.w	r1, #524	; 0x20c
  8007fac:	483c      	ldr	r0, [pc, #240]	; (80080a0 <MX_TIM2_Init+0x12c>)
  8007fae:	f000 fc71 	bl	8008894 <_Error_Handler>
   }
@@ -20890,7 +20891,7 @@ static void MX_TIM2_Init(void)
  8007fc8:	d004      	beq.n	8007fd4 <MX_TIM2_Init+0x60>
   {
     _Error_Handler(__FILE__, __LINE__);
- 8007fca:	f44f 7105 	mov.w	r1, #532	; 0x214
+ 8007fca:	f240 2112 	movw	r1, #530	; 0x212
  8007fce:	4834      	ldr	r0, [pc, #208]	; (80080a0 <MX_TIM2_Init+0x12c>)
  8007fd0:	f000 fc60 	bl	8008894 <_Error_Handler>
   }
@@ -20903,7 +20904,7 @@ static void MX_TIM2_Init(void)
  8007fde:	d004      	beq.n	8007fea <MX_TIM2_Init+0x76>
   {
     _Error_Handler(__FILE__, __LINE__);
- 8007fe0:	f240 2119 	movw	r1, #537	; 0x219
+ 8007fe0:	f240 2117 	movw	r1, #535	; 0x217
  8007fe4:	482e      	ldr	r0, [pc, #184]	; (80080a0 <MX_TIM2_Init+0x12c>)
  8007fe6:	f000 fc55 	bl	8008894 <_Error_Handler>
   }
@@ -20924,7 +20925,7 @@ static void MX_TIM2_Init(void)
  8008002:	d004      	beq.n	800800e <MX_TIM2_Init+0x9a>
   {
     _Error_Handler(__FILE__, __LINE__);
- 8008004:	f44f 7108 	mov.w	r1, #544	; 0x220
+ 8008004:	f240 211e 	movw	r1, #542	; 0x21e
  8008008:	4825      	ldr	r0, [pc, #148]	; (80080a0 <MX_TIM2_Init+0x12c>)
  800800a:	f000 fc43 	bl	8008894 <_Error_Handler>
   }
@@ -20952,7 +20953,7 @@ static void MX_TIM2_Init(void)
  800802e:	d004      	beq.n	800803a <MX_TIM2_Init+0xc6>
   {
     _Error_Handler(__FILE__, __LINE__);
- 8008030:	f240 2129 	movw	r1, #553	; 0x229
+ 8008030:	f240 2127 	movw	r1, #551	; 0x227
  8008034:	481a      	ldr	r0, [pc, #104]	; (80080a0 <MX_TIM2_Init+0x12c>)
  8008036:	f000 fc2d 	bl	8008894 <_Error_Handler>
   }
@@ -20968,7 +20969,7 @@ static void MX_TIM2_Init(void)
  800804a:	d004      	beq.n	8008056 <MX_TIM2_Init+0xe2>
   {
     _Error_Handler(__FILE__, __LINE__);
- 800804c:	f240 212e 	movw	r1, #558	; 0x22e
+ 800804c:	f44f 710b 	mov.w	r1, #556	; 0x22c
  8008050:	4813      	ldr	r0, [pc, #76]	; (80080a0 <MX_TIM2_Init+0x12c>)
  8008052:	f000 fc1f 	bl	8008894 <_Error_Handler>
   }
@@ -20984,7 +20985,7 @@ static void MX_TIM2_Init(void)
  8008066:	d004      	beq.n	8008072 <MX_TIM2_Init+0xfe>
   {
     _Error_Handler(__FILE__, __LINE__);
- 8008068:	f240 2133 	movw	r1, #563	; 0x233
+ 8008068:	f240 2131 	movw	r1, #561	; 0x231
  800806c:	480c      	ldr	r0, [pc, #48]	; (80080a0 <MX_TIM2_Init+0x12c>)
  800806e:	f000 fc11 	bl	8008894 <_Error_Handler>
   }
@@ -21000,7 +21001,7 @@ static void MX_TIM2_Init(void)
  8008082:	d004      	beq.n	800808e <MX_TIM2_Init+0x11a>
   {
     _Error_Handler(__FILE__, __LINE__);
- 8008084:	f44f 710e 	mov.w	r1, #568	; 0x238
+ 8008084:	f240 2136 	movw	r1, #566	; 0x236
  8008088:	4805      	ldr	r0, [pc, #20]	; (80080a0 <MX_TIM2_Init+0x12c>)
  800808a:	f000 fc03 	bl	8008894 <_Error_Handler>
   }
@@ -21058,7 +21059,7 @@ static void MX_TIM3_Init(void)
  80080d4:	d004      	beq.n	80080e0 <MX_TIM3_Init+0x3c>
   {
     _Error_Handler(__FILE__, __LINE__);
- 80080d6:	f240 214e 	movw	r1, #590	; 0x24e
+ 80080d6:	f44f 7113 	mov.w	r1, #588	; 0x24c
  80080da:	483e      	ldr	r0, [pc, #248]	; (80081d4 <MX_TIM3_Init+0x130>)
  80080dc:	f000 fbda 	bl	8008894 <_Error_Handler>
   }
@@ -21076,7 +21077,7 @@ static void MX_TIM3_Init(void)
  80080f6:	d004      	beq.n	8008102 <MX_TIM3_Init+0x5e>
   {
     _Error_Handler(__FILE__, __LINE__);
- 80080f8:	f44f 7115 	mov.w	r1, #596	; 0x254
+ 80080f8:	f240 2152 	movw	r1, #594	; 0x252
  80080fc:	4835      	ldr	r0, [pc, #212]	; (80081d4 <MX_TIM3_Init+0x130>)
  80080fe:	f000 fbc9 	bl	8008894 <_Error_Handler>
   }
@@ -21089,7 +21090,7 @@ static void MX_TIM3_Init(void)
  800810c:	d004      	beq.n	8008118 <MX_TIM3_Init+0x74>
   {
     _Error_Handler(__FILE__, __LINE__);
- 800810e:	f240 2159 	movw	r1, #601	; 0x259
+ 800810e:	f240 2157 	movw	r1, #599	; 0x257
  8008112:	4830      	ldr	r0, [pc, #192]	; (80081d4 <MX_TIM3_Init+0x130>)
  8008114:	f000 fbbe 	bl	8008894 <_Error_Handler>
   }
@@ -21110,7 +21111,7 @@ static void MX_TIM3_Init(void)
  8008130:	d004      	beq.n	800813c <MX_TIM3_Init+0x98>
   {
     _Error_Handler(__FILE__, __LINE__);
- 8008132:	f44f 7118 	mov.w	r1, #608	; 0x260
+ 8008132:	f240 215e 	movw	r1, #606	; 0x25e
  8008136:	4827      	ldr	r0, [pc, #156]	; (80081d4 <MX_TIM3_Init+0x130>)
  8008138:	f000 fbac 	bl	8008894 <_Error_Handler>
   }
@@ -21138,7 +21139,7 @@ static void MX_TIM3_Init(void)
  800815c:	d004      	beq.n	8008168 <MX_TIM3_Init+0xc4>
   {
     _Error_Handler(__FILE__, __LINE__);
- 800815e:	f240 2169 	movw	r1, #617	; 0x269
+ 800815e:	f240 2167 	movw	r1, #615	; 0x267
  8008162:	481c      	ldr	r0, [pc, #112]	; (80081d4 <MX_TIM3_Init+0x130>)
  8008164:	f000 fb96 	bl	8008894 <_Error_Handler>
   }
@@ -21154,7 +21155,7 @@ static void MX_TIM3_Init(void)
  8008178:	d004      	beq.n	8008184 <MX_TIM3_Init+0xe0>
   {
     _Error_Handler(__FILE__, __LINE__);
- 800817a:	f240 216e 	movw	r1, #622	; 0x26e
+ 800817a:	f44f 711b 	mov.w	r1, #620	; 0x26c
  800817e:	4815      	ldr	r0, [pc, #84]	; (80081d4 <MX_TIM3_Init+0x130>)
  8008180:	f000 fb88 	bl	8008894 <_Error_Handler>
   }
@@ -21170,7 +21171,7 @@ static void MX_TIM3_Init(void)
  8008194:	d004      	beq.n	80081a0 <MX_TIM3_Init+0xfc>
   {
     _Error_Handler(__FILE__, __LINE__);
- 8008196:	f240 2173 	movw	r1, #627	; 0x273
+ 8008196:	f240 2171 	movw	r1, #625	; 0x271
  800819a:	480e      	ldr	r0, [pc, #56]	; (80081d4 <MX_TIM3_Init+0x130>)
  800819c:	f000 fb7a 	bl	8008894 <_Error_Handler>
   }
@@ -21186,7 +21187,7 @@ static void MX_TIM3_Init(void)
  80081b0:	d004      	beq.n	80081bc <MX_TIM3_Init+0x118>
   {
     _Error_Handler(__FILE__, __LINE__);
- 80081b2:	f44f 711e 	mov.w	r1, #632	; 0x278
+ 80081b2:	f240 2176 	movw	r1, #630	; 0x276
  80081b6:	4807      	ldr	r0, [pc, #28]	; (80081d4 <MX_TIM3_Init+0x130>)
  80081b8:	f000 fb6c 	bl	8008894 <_Error_Handler>
   }
@@ -21245,7 +21246,7 @@ static void MX_TIM4_Init(void)
  8008208:	d004      	beq.n	8008214 <MX_TIM4_Init+0x3c>
   {
     _Error_Handler(__FILE__, __LINE__);
- 800820a:	f240 218d 	movw	r1, #653	; 0x28d
+ 800820a:	f240 218b 	movw	r1, #651	; 0x28b
  800820e:	4822      	ldr	r0, [pc, #136]	; (8008298 <MX_TIM4_Init+0xc0>)
  8008210:	f000 fb40 	bl	8008894 <_Error_Handler>
   }
@@ -21266,7 +21267,7 @@ static void MX_TIM4_Init(void)
  800822c:	d004      	beq.n	8008238 <MX_TIM4_Init+0x60>
   {
     _Error_Handler(__FILE__, __LINE__);
- 800822e:	f44f 7125 	mov.w	r1, #660	; 0x294
+ 800822e:	f240 2192 	movw	r1, #658	; 0x292
  8008232:	4819      	ldr	r0, [pc, #100]	; (8008298 <MX_TIM4_Init+0xc0>)
  8008234:	f000 fb2e 	bl	8008894 <_Error_Handler>
   }
@@ -21294,7 +21295,7 @@ static void MX_TIM4_Init(void)
  8008258:	d004      	beq.n	8008264 <MX_TIM4_Init+0x8c>
   {
     _Error_Handler(__FILE__, __LINE__);
- 800825a:	f240 219d 	movw	r1, #669	; 0x29d
+ 800825a:	f240 219b 	movw	r1, #667	; 0x29b
  800825e:	480e      	ldr	r0, [pc, #56]	; (8008298 <MX_TIM4_Init+0xc0>)
  8008260:	f000 fb18 	bl	8008894 <_Error_Handler>
   }
@@ -21310,7 +21311,7 @@ static void MX_TIM4_Init(void)
  8008274:	d004      	beq.n	8008280 <MX_TIM4_Init+0xa8>
   {
     _Error_Handler(__FILE__, __LINE__);
- 8008276:	f240 21a2 	movw	r1, #674	; 0x2a2
+ 8008276:	f44f 7128 	mov.w	r1, #672	; 0x2a0
  800827a:	4807      	ldr	r0, [pc, #28]	; (8008298 <MX_TIM4_Init+0xc0>)
  800827c:	f000 fb0a 	bl	8008894 <_Error_Handler>
   }
@@ -21370,7 +21371,7 @@ static void MX_TIM5_Init(void)
  80082cc:	d004      	beq.n	80082d8 <MX_TIM5_Init+0x3c>
   {
     _Error_Handler(__FILE__, __LINE__);
- 80082ce:	f44f 712e 	mov.w	r1, #696	; 0x2b8
+ 80082ce:	f240 21b6 	movw	r1, #694	; 0x2b6
  80082d2:	4829      	ldr	r0, [pc, #164]	; (8008378 <MX_TIM5_Init+0xdc>)
  80082d4:	f000 fade 	bl	8008894 <_Error_Handler>
   }
@@ -21388,7 +21389,7 @@ static void MX_TIM5_Init(void)
  80082ee:	d004      	beq.n	80082fa <MX_TIM5_Init+0x5e>
   {
     _Error_Handler(__FILE__, __LINE__);
- 80082f0:	f240 21be 	movw	r1, #702	; 0x2be
+ 80082f0:	f44f 712f 	mov.w	r1, #700	; 0x2bc
  80082f4:	4820      	ldr	r0, [pc, #128]	; (8008378 <MX_TIM5_Init+0xdc>)
  80082f6:	f000 facd 	bl	8008894 <_Error_Handler>
   }
@@ -21401,7 +21402,7 @@ static void MX_TIM5_Init(void)
  8008304:	d004      	beq.n	8008310 <MX_TIM5_Init+0x74>
   {
     _Error_Handler(__FILE__, __LINE__);
- 8008306:	f240 21c3 	movw	r1, #707	; 0x2c3
+ 8008306:	f240 21c1 	movw	r1, #705	; 0x2c1
  800830a:	481b      	ldr	r0, [pc, #108]	; (8008378 <MX_TIM5_Init+0xdc>)
  800830c:	f000 fac2 	bl	8008894 <_Error_Handler>
   }
@@ -21422,7 +21423,7 @@ static void MX_TIM5_Init(void)
  8008328:	d004      	beq.n	8008334 <MX_TIM5_Init+0x98>
   {
     _Error_Handler(__FILE__, __LINE__);
- 800832a:	f240 21ca 	movw	r1, #714	; 0x2ca
+ 800832a:	f44f 7132 	mov.w	r1, #712	; 0x2c8
  800832e:	4812      	ldr	r0, [pc, #72]	; (8008378 <MX_TIM5_Init+0xdc>)
  8008330:	f000 fab0 	bl	8008894 <_Error_Handler>
   }
@@ -21450,7 +21451,7 @@ static void MX_TIM5_Init(void)
  8008354:	d004      	beq.n	8008360 <MX_TIM5_Init+0xc4>
   {
     _Error_Handler(__FILE__, __LINE__);
- 8008356:	f240 21d3 	movw	r1, #723	; 0x2d3
+ 8008356:	f240 21d1 	movw	r1, #721	; 0x2d1
  800835a:	4807      	ldr	r0, [pc, #28]	; (8008378 <MX_TIM5_Init+0xdc>)
  800835c:	f000 fa9a 	bl	8008894 <_Error_Handler>
   }
@@ -21504,7 +21505,7 @@ static void MX_TIM6_Init(void)
  80083a6:	d004      	beq.n	80083b2 <MX_TIM6_Init+0x36>
   {
     _Error_Handler(__FILE__, __LINE__);
- 80083a8:	f240 21e6 	movw	r1, #742	; 0x2e6
+ 80083a8:	f44f 7139 	mov.w	r1, #740	; 0x2e4
  80083ac:	480d      	ldr	r0, [pc, #52]	; (80083e4 <MX_TIM6_Init+0x68>)
  80083ae:	f000 fa71 	bl	8008894 <_Error_Handler>
   }
@@ -21525,7 +21526,7 @@ static void MX_TIM6_Init(void)
  80083c8:	d004      	beq.n	80083d4 <MX_TIM6_Init+0x58>
   {
     _Error_Handler(__FILE__, __LINE__);
- 80083ca:	f240 21ed 	movw	r1, #749	; 0x2ed
+ 80083ca:	f240 21eb 	movw	r1, #747	; 0x2eb
  80083ce:	4805      	ldr	r0, [pc, #20]	; (80083e4 <MX_TIM6_Init+0x68>)
  80083d0:	f000 fa60 	bl	8008894 <_Error_Handler>
   }
@@ -21584,7 +21585,7 @@ static void MX_TIM8_Init(void)
  800841e:	d004      	beq.n	800842a <MX_TIM8_Init+0x42>
   {
     _Error_Handler(__FILE__, __LINE__);
- 8008420:	f240 3103 	movw	r1, #771	; 0x303
+ 8008420:	f240 3101 	movw	r1, #769	; 0x301
  8008424:	4849      	ldr	r0, [pc, #292]	; (800854c <MX_TIM8_Init+0x164>)
  8008426:	f000 fa35 	bl	8008894 <_Error_Handler>
   }
@@ -21602,7 +21603,7 @@ static void MX_TIM8_Init(void)
  8008440:	d004      	beq.n	800844c <MX_TIM8_Init+0x64>
   {
     _Error_Handler(__FILE__, __LINE__);
- 8008442:	f240 3109 	movw	r1, #777	; 0x309
+ 8008442:	f240 3107 	movw	r1, #775	; 0x307
  8008446:	4841      	ldr	r0, [pc, #260]	; (800854c <MX_TIM8_Init+0x164>)
  8008448:	f000 fa24 	bl	8008894 <_Error_Handler>
   }
@@ -21615,7 +21616,7 @@ static void MX_TIM8_Init(void)
  8008456:	d004      	beq.n	8008462 <MX_TIM8_Init+0x7a>
   {
     _Error_Handler(__FILE__, __LINE__);
- 8008458:	f240 310e 	movw	r1, #782	; 0x30e
+ 8008458:	f44f 7143 	mov.w	r1, #780	; 0x30c
  800845c:	483b      	ldr	r0, [pc, #236]	; (800854c <MX_TIM8_Init+0x164>)
  800845e:	f000 fa19 	bl	8008894 <_Error_Handler>
   }
@@ -21636,7 +21637,7 @@ static void MX_TIM8_Init(void)
  800847a:	d004      	beq.n	8008486 <MX_TIM8_Init+0x9e>
   {
     _Error_Handler(__FILE__, __LINE__);
- 800847c:	f240 3115 	movw	r1, #789	; 0x315
+ 800847c:	f240 3113 	movw	r1, #787	; 0x313
  8008480:	4832      	ldr	r0, [pc, #200]	; (800854c <MX_TIM8_Init+0x164>)
  8008482:	f000 fa07 	bl	8008894 <_Error_Handler>
   }
@@ -21673,7 +21674,7 @@ static void MX_TIM8_Init(void)
  80084b4:	d004      	beq.n	80084c0 <MX_TIM8_Init+0xd8>
   {
     _Error_Handler(__FILE__, __LINE__);
- 80084b6:	f240 3121 	movw	r1, #801	; 0x321
+ 80084b6:	f240 311f 	movw	r1, #799	; 0x31f
  80084ba:	4824      	ldr	r0, [pc, #144]	; (800854c <MX_TIM8_Init+0x164>)
  80084bc:	f000 f9ea 	bl	8008894 <_Error_Handler>
   }
@@ -21689,7 +21690,7 @@ static void MX_TIM8_Init(void)
  80084d2:	d004      	beq.n	80084de <MX_TIM8_Init+0xf6>
   {
     _Error_Handler(__FILE__, __LINE__);
- 80084d4:	f240 3126 	movw	r1, #806	; 0x326
+ 80084d4:	f44f 7149 	mov.w	r1, #804	; 0x324
  80084d8:	481c      	ldr	r0, [pc, #112]	; (800854c <MX_TIM8_Init+0x164>)
  80084da:	f000 f9db 	bl	8008894 <_Error_Handler>
   }
@@ -21705,7 +21706,7 @@ static void MX_TIM8_Init(void)
  80084f0:	d004      	beq.n	80084fc <MX_TIM8_Init+0x114>
   {
     _Error_Handler(__FILE__, __LINE__);
- 80084f2:	f240 312b 	movw	r1, #811	; 0x32b
+ 80084f2:	f240 3129 	movw	r1, #809	; 0x329
  80084f6:	4815      	ldr	r0, [pc, #84]	; (800854c <MX_TIM8_Init+0x164>)
  80084f8:	f000 f9cc 	bl	8008894 <_Error_Handler>
   }
@@ -21741,7 +21742,7 @@ static void MX_TIM8_Init(void)
  8008528:	d004      	beq.n	8008534 <MX_TIM8_Init+0x14c>
   {
     _Error_Handler(__FILE__, __LINE__);
- 800852a:	f240 3137 	movw	r1, #823	; 0x337
+ 800852a:	f240 3135 	movw	r1, #821	; 0x335
  800852e:	4807      	ldr	r0, [pc, #28]	; (800854c <MX_TIM8_Init+0x164>)
  8008530:	f000 f9b0 	bl	8008894 <_Error_Handler>
   }
@@ -21800,7 +21801,7 @@ static void MX_TIM9_Init(void)
  8008580:	d004      	beq.n	800858c <MX_TIM9_Init+0x3c>
   {
     _Error_Handler(__FILE__, __LINE__);
- 8008582:	f44f 7153 	mov.w	r1, #844	; 0x34c
+ 8008582:	f240 314a 	movw	r1, #842	; 0x34a
  8008586:	4827      	ldr	r0, [pc, #156]	; (8008624 <MX_TIM9_Init+0xd4>)
  8008588:	f000 f984 	bl	8008894 <_Error_Handler>
   }
@@ -21818,7 +21819,7 @@ static void MX_TIM9_Init(void)
  80085a2:	d004      	beq.n	80085ae <MX_TIM9_Init+0x5e>
   {
     _Error_Handler(__FILE__, __LINE__);
- 80085a4:	f240 3152 	movw	r1, #850	; 0x352
+ 80085a4:	f44f 7154 	mov.w	r1, #848	; 0x350
  80085a8:	481e      	ldr	r0, [pc, #120]	; (8008624 <MX_TIM9_Init+0xd4>)
  80085aa:	f000 f973 	bl	8008894 <_Error_Handler>
   }
@@ -21831,7 +21832,7 @@ static void MX_TIM9_Init(void)
  80085b8:	d004      	beq.n	80085c4 <MX_TIM9_Init+0x74>
   {
     _Error_Handler(__FILE__, __LINE__);
- 80085ba:	f240 3157 	movw	r1, #855	; 0x357
+ 80085ba:	f240 3155 	movw	r1, #853	; 0x355
  80085be:	4819      	ldr	r0, [pc, #100]	; (8008624 <MX_TIM9_Init+0xd4>)
  80085c0:	f000 f968 	bl	8008894 <_Error_Handler>
   }
@@ -21859,7 +21860,7 @@ static void MX_TIM9_Init(void)
  80085e4:	d004      	beq.n	80085f0 <MX_TIM9_Init+0xa0>
   {
     _Error_Handler(__FILE__, __LINE__);
- 80085e6:	f44f 7158 	mov.w	r1, #864	; 0x360
+ 80085e6:	f240 315e 	movw	r1, #862	; 0x35e
  80085ea:	480e      	ldr	r0, [pc, #56]	; (8008624 <MX_TIM9_Init+0xd4>)
  80085ec:	f000 f952 	bl	8008894 <_Error_Handler>
   }
@@ -21875,7 +21876,7 @@ static void MX_TIM9_Init(void)
  8008600:	d004      	beq.n	800860c <MX_TIM9_Init+0xbc>
   {
     _Error_Handler(__FILE__, __LINE__);
- 8008602:	f240 3165 	movw	r1, #869	; 0x365
+ 8008602:	f240 3163 	movw	r1, #867	; 0x363
  8008606:	4807      	ldr	r0, [pc, #28]	; (8008624 <MX_TIM9_Init+0xd4>)
  8008608:	f000 f944 	bl	8008894 <_Error_Handler>
   }
@@ -21933,7 +21934,7 @@ static void MX_TIM12_Init(void)
  800865a:	d004      	beq.n	8008666 <MX_TIM12_Init+0x3e>
   {
     _Error_Handler(__FILE__, __LINE__);
- 800865c:	f240 3179 	movw	r1, #889	; 0x379
+ 800865c:	f240 3177 	movw	r1, #887	; 0x377
  8008660:	480d      	ldr	r0, [pc, #52]	; (8008698 <MX_TIM12_Init+0x70>)
  8008662:	f000 f917 	bl	8008894 <_Error_Handler>
   }
@@ -21951,7 +21952,7 @@ static void MX_TIM12_Init(void)
  800867a:	d004      	beq.n	8008686 <MX_TIM12_Init+0x5e>
   {
     _Error_Handler(__FILE__, __LINE__);
- 800867c:	f240 317f 	movw	r1, #895	; 0x37f
+ 800867c:	f240 317d 	movw	r1, #893	; 0x37d
  8008680:	4805      	ldr	r0, [pc, #20]	; (8008698 <MX_TIM12_Init+0x70>)
  8008682:	f000 f907 	bl	8008894 <_Error_Handler>
   }
