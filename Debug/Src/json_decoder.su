@@ -1,0 +1,10 @@
+json_decoder.c:101:6:generalObjectReceived	8	static
+json_decoder.c:110:6:jsonResetObjectsFlags	24	static
+json_decoder.c:131:6:jsonVCPSendObjectStack	16	static
+json_decoder.c:147:6:jsonStringReceived	16	static
+json_decoder.c:164:6:jsonNumberReceived	16	static
+json_decoder.c:181:6:jsonArrayValueReceived	16	static
+json_decoder.c:198:6:jsonStartOfObject	16	static
+json_decoder.c:221:6:jsonObjectReceived	8	static
+json_decoder.c:235:23:jsonParseObject	16	static
+json_decoder.c:405:6:jsonDecoding	24	static

@@ -1,0 +1,4 @@
+vcp_communication.c:24:6:VCP_SendString	24	static
+vcp_communication.c:37:6:VCP_SendBuffer	16	static
+vcp_communication.c:62:8:VCP_Receive_FS	16	static
+vcp_communication.c:92:8:VCP_retrieveInputData	24	static

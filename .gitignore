@@ -1,13 +1,1 @@
-*.cproject
-*.mxproject
-*.project
 *.o
-*.su
-*.elf
-*.hex
-*.list
-*.map
-*.prefs
-*.xml
-*.ld
-*.launch

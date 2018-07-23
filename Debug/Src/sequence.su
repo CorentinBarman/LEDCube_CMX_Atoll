@@ -1,0 +1,2 @@
+sequence.c:30:6:sequence_InitTestSequence	72	static
+sequence.c:62:6:sequence_timer_IRQ	8	static

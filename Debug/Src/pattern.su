@@ -1,0 +1,4 @@
+pattern.c:22:12:pattern_GetPattern	16	static
+pattern.c:27:6:pattern_ClearAllPatternsData	16	static
+pattern.c:39:6:pattern_AddPatternData	16	static
+pattern.c:54:6:pattern_ModifyPattern	24	static

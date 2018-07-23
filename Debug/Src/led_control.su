@@ -1,0 +1,7 @@
+led_control.c:28:6:LED_ObjectReceived	64	static
+led_control.c:77:6:LED_init_for_measures	24	static
+led_control.c:101:6:LED_measure_update	8	static
+led_control.c:131:6:LED_change_PWM_duty	16	static
+led_control.c:137:6:LED_change_pattern_data	16	static
+led_control.c:152:6:LED_change_pattern_interval	16	static
+led_control.c:157:6:LED_timer_interval_irq	16	static
