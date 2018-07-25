@@ -9,6 +9,7 @@
 #define LED_H_
 
 #include <json/json_decoder.h>
+#include "data/sequence.h"
 #include <stdint.h>
 #include <stdlib.h>
 
@@ -20,11 +21,10 @@
  */
 extern JsonObject_t ledJSON;
 
-void LED_change_PWM_duty(uint8_t index, uint16_t duty);
-void LED_change_pattern_data(uint8_t index, uint16_t length, uint16_t *data);
-void LED_change_pattern_interval(uint8_t index, uint16_t interval);
+void LED_changePWM_Duty(uint8_t index, uint16_t duty);
 void LED_timer_interval_irq();
 void LED_init_for_measures();
-void LED_object_received();
+void LED_startLedSequence(uint8_t ledIndex);
+void LED_setSequence(uint8_t index, Sequence_t *sequence);
 
 #endif /* LED_H_ */

@@ -110,7 +110,7 @@ uint8_t tim6_irq_flag = 0;
 void tim6_IRQ()
 {
 	// Called every millisecond
-	//LED_timer_interval_irq();
+	LED_timer_interval_irq();
 	//sequence_timer_IRQ();
 }
 

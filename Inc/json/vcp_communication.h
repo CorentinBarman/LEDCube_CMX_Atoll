@@ -13,7 +13,7 @@
 
 /* Define size for the receive and transmit buffer over CDC */
 /* It's up to user to redefine and/or remove those define */
-#define APP_RX_DATA_SIZE  2048
+#define APP_RX_DATA_SIZE  100
 #define APP_TX_DATA_SIZE  2048
 
 //max 10 commands can be received and saved without overwriting. Each command has a max size of APP_RX_DATA_SIZE

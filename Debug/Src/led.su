@@ -1,6 +1,10 @@
-led.c:35:6:LED_init_for_measures	24	static
-led.c:59:6:LED_measure_update	8	static
-led.c:80:6:LED_change_PWM_duty	16	static
-led.c:86:6:LED_change_pattern_data	16	static
-led.c:101:6:LED_change_pattern_interval	16	static
-led.c:106:6:LED_timer_interval_irq	16	static
+led.c:34:6:LED_init_for_measures	4	static
+led.c:58:6:LED_setSequence	16	static
+led.c:70:6:LED_changePWM_Duty	16	static
+led.c:76:24:getCurrentPatternInterval	16	static
+led.c:81:24:getCurrentPatternValue	16	static
+led.c:86:24:getCurrentPatternLength	16	static
+led.c:91:24:getCurrentPatternStartingPosition	16	static
+led.c:96:24:getCurrentPatternDuration	16	static
+led.c:101:6:LED_startLedSequence	24	static
+led.c:115:6:LED_timer_interval_irq	24	static

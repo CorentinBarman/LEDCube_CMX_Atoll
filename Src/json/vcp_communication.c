@@ -101,10 +101,14 @@ int8_t VCP_retrieveInputData(uint8_t* Buf, uint32_t *Len)
 
     //check if all data were processed.
     s_RxBuffers.pos_process++;
+
     if(s_RxBuffers.pos_process>=MaxCommandsInBuffer) //reach the last buffer, need to rewind to 0
     {
         s_RxBuffers.pos_process=0;
     }
-    if(s_RxBuffers.pos_process==s_RxBuffers.pos_receive)s_RxBuffers.IsCommandDataReceived=0; //check if all data were processed
+
+    if(s_RxBuffers.pos_process==s_RxBuffers.pos_receive)
+    	s_RxBuffers.IsCommandDataReceived=0; //check if all data were processed
+
     return 1;
 }

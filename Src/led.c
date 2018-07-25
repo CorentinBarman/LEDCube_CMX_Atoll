@@ -11,29 +11,28 @@
 #include "main.h"
 #include <memory.h>
 
+#include "data/sequence.h"
+
 #define MAX_LED_CHANNELS 20
 
-#define TEST_LED
-
 typedef struct _led_t{
-	uint16_t duty;
-	uint16_t pattern_data[1000];
-	uint32_t pattern_interval;
-	uint16_t pattern_length;
+	Sequence_t* sequence;
 
-	uint32_t pattern_interval_count;
-	uint16_t pattern_position;
+	uint32_t pattern_position;
+	uint16_t current_pattern;
+	uint32_t interval_count;
 
-	uint8_t pattern_on;
-} led_t;
+	uint32_t pattern_duration_count;
+
+	uint8_t sequence_on;
+	uint8_t sequence_repeat;
+} Led_t;
 
 
-static led_t leds[MAX_LED_CHANNELS];
-uint8_t testMeasureLED;
-
+static Led_t leds[MAX_LED_CHANNELS];
 
 void LED_init_for_measures()
-{
+{/*
 	uint8_t i, j;
 
 	for(j = 0; j < 20; j++)
@@ -49,85 +48,119 @@ void LED_init_for_measures()
 		leds[j].pattern_interval_count = 0;
 		leds[j].pattern_on = 0;
 	}
-#ifdef TEST_LED
+
 	testMeasureLED = 1;
 	leds[testMeasureLED].pattern_on = 1;
-	LED_change_PWM_duty(testMeasureLED, leds[testMeasureLED].pattern_data[0]);
-#endif
+	LED_change_PWM_duty(testMeasureLED, leds[testMeasureLED].pattern_data[0]);*/
+
 }
 
-void LED_measure_update()
+void LED_setSequence(uint8_t index, Sequence_t *sequence)
 {
-#ifdef TEST_LED
-	leds[testMeasureLED].pattern_on = 0;
-	LED_change_PWM_duty(testMeasureLED, 0);
-	if(testMeasureLED == 2)
-	{
-		testMeasureLED = 0;
-		// Stop the test
-		return;
-	}
-	else
-	{
-		testMeasureLED++;
-	}
+	leds[index].sequence = sequence;
+	leds[index].pattern_position = 0;
+	leds[index].current_pattern = 0;
+	leds[index].interval_count = 0;
+	leds[index].pattern_duration_count = 0;
 
-	leds[testMeasureLED].pattern_on = 1;
-	LED_change_PWM_duty(testMeasureLED, leds[testMeasureLED].pattern_data[0]);
-#endif
+	leds[index].sequence_on = 0;
+	leds[index].sequence_repeat = 0;
 }
 
-void LED_change_PWM_duty(uint8_t index, uint16_t duty)
+void LED_changePWM_Duty(uint8_t index, uint16_t duty)
 {
-	leds[index].duty = duty;
-	change_PWM_duty(index, leds[index].duty);
+	change_PWM_duty(index, duty);
 }
 
-void LED_change_pattern_data(uint8_t index, uint16_t length, uint16_t *data)
+
+static inline uint32_t getCurrentPatternInterval(uint8_t i)
 {
-	if(length == 0)
-	{
-		leds[index].pattern_on = 0;
-		LED_change_PWM_duty(index, 0);
-	}
-	else
-	{
-		memcpy(leds[index].pattern_data, data, length * sizeof(uint16_t));
-		leds[index].pattern_on = 1;
-		leds[index].pattern_length = length;
-	}
+	return leds[i].sequence->patterns[leds[i].current_pattern]->interval;
 }
 
-void LED_change_pattern_interval(uint8_t index, uint16_t interval)
+static inline uint16_t getCurrentPatternValue(uint8_t i)
 {
-	leds[index].pattern_interval = interval;
+	return leds[i].sequence->patterns[leds[i].current_pattern]->patternData->data[leds[i].pattern_position];
+}
+
+static inline uint16_t getCurrentPatternLength(uint8_t i)
+{
+	return leds[i].sequence->patterns[leds[i].current_pattern]->patternData->size;
+}
+
+static inline uint16_t getCurrentPatternStartingPosition(uint8_t i)
+{
+	return leds[i].sequence->patterns[leds[i].current_pattern]->startPosition;
+}
+
+static inline uint32_t getCurrentPatternDuration(uint8_t i)
+{
+	return leds[i].sequence->patterns[leds[i].current_pattern]->duration;
+}
+
+void LED_startLedSequence(uint8_t ledIndex)
+{
+	if(leds[ledIndex].sequence != NULL)
+	{
+		leds[ledIndex].current_pattern = 0;
+		leds[ledIndex].interval_count = 0;
+		leds[ledIndex].pattern_duration_count = 0;
+		leds[ledIndex].pattern_position = getCurrentPatternStartingPosition(ledIndex);
+
+		leds[ledIndex].sequence_on = 1;
+		leds[ledIndex].sequence_repeat = 0;
+	}
 }
 
 void LED_timer_interval_irq()
 {
 	uint8_t i;
+
+	// Loop on all Leds
 	for(i = 0; i < MAX_LED_CHANNELS; i++)
 	{
-		if(leds[i].pattern_on)
+		if(leds[i].sequence_on)
 		{
-			leds[i].pattern_interval_count++;
-			if(leds[i].pattern_interval_count >= leds[i].pattern_interval)
+			// Counter between patterns
+			leds[i].pattern_duration_count++;
+
+			if(leds[i].pattern_duration_count >= getCurrentPatternDuration(i))
 			{
-				leds[i].pattern_interval_count = 0;
+				leds[i].pattern_duration_count = 0;
 
-				// Load next value
-				leds[i].pattern_position++;
-				if(leds[i].pattern_position >= leds[i].pattern_length)
+				// Load the next pattern
+				leds[i].current_pattern++;
+				if(leds[i].current_pattern >= leds[i].sequence->patterns_count)
 				{
-					leds[i].pattern_position = 0;
-
-					LED_change_PWM_duty(i, leds[i].pattern_data[leds[i].pattern_position]);
-					LED_measure_update();
+					leds[i].sequence_on = 0;
 				}
 				else
 				{
-					LED_change_PWM_duty(i, leds[i].pattern_data[leds[i].pattern_position]);
+					leds[i].interval_count = 0;
+					leds[i].pattern_position = getCurrentPatternStartingPosition(i);
+
+					// Apply new value
+					LED_changePWM_Duty(i, getCurrentPatternValue(i));
 				}
+			}
+
+			// Position in pattern
+			leds[i].interval_count++;
+
+			// Next pattern position
+			if(leds[i].interval_count >= getCurrentPatternInterval(i))
+			{
+				leds[i].interval_count = 0;
+
+				leds[i].pattern_position++;
+
+				// Loop inside the pattern until it is completed
+				if(leds[i].pattern_position >= getCurrentPatternLength(i))
+				{
+					leds[i].pattern_position = 0;
+				}
+
+				LED_changePWM_Duty(i, getCurrentPatternValue(i));
 			}
 		}
 	}

@@ -10,7 +10,7 @@
 
 #include "data/pattern.h"
 
-#define MAX_SEQUENCE_PATTERNS 50
+#define MAX_SEQUENCE_PATTERNS 100
 
 typedef struct _sequence_t{
 	Pattern_t* patterns[MAX_SEQUENCE_PATTERNS];
@@ -22,8 +22,5 @@ typedef struct _sequence_t{
 void sequence_setIndex(uint8_t index);
 void sequence_setLedIndex(uint8_t ledIndex);
 void sequence_addPattern(Pattern_t *pattern);
-
-// For debug purpose, generate a sequence to quickly visualize the changes
-void sequence_InitTestSequence();
 
 #endif /* SEQUENCE_H_ */

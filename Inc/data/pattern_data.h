@@ -11,7 +11,7 @@
 #include <stdint.h>
 
 #define MAX_PATTERNS_DATA 100
-#define PATTERN_DATA_SIZE 10000
+#define PATTERN_DATA_SIZE 20000
 
 typedef struct _PatternData_t {
 	uint16_t *data;
