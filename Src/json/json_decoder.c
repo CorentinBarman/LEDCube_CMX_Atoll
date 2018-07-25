@@ -320,6 +320,7 @@ static enum JsonObjectResult jsonParseObject(char c, uint8_t currentLevel)
 		}
 		else if(c == ',')
 		{
+			jsonObjectStates[currentLevel] = JSON_ARRAY_CHOOSE_VALUE_TYPE;
 			jsonArrayValuePosition[currentLevel]++;
 		}
 		break;
