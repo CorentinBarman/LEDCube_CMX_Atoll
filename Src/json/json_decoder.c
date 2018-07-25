@@ -5,16 +5,14 @@
  *      Author: coren
  */
 
-#include <json_decoder.h>
+#include <json/json_decoder.h>
+#include <json/vcp_communication.h>
 #include <led.h>
-#include "vcp_communication.h"
 #include <stdlib.h>
 #include <string.h>
 
 // ----------------------------------
 // JSON decoding states and variables
-
-
 
 // This is the numbers of opening brackets in a row that can be used in a json
 // Warning: No check is done for now to verify that the number of levels isn't exceeded
@@ -26,124 +24,82 @@ enum JsonObjectResult { JSON_OK, JSON_END_OF_OBJECT, JSON_NEW_OBJECT};
 // JSON state machine
 enum JsonState { JSON_IDLE, JSON_MAIN_OBJECT,
 	JSON_START, JSON_NAME_STRING_DECODING, JSON_STRING_DECODING, JSON_WAIT_SEPARATOR, JSON_CHOOSE_VALUE_TYPE,
-	JSON_ARRAY_DECODING, JSON_NUMBER_DECODING, JSON_END_OR_NEW_VALUE};
+	JSON_NUMBER_DECODING, JSON_END_OR_NEW_VALUE,
+	JSON_ARRAY_CHOOSE_VALUE_TYPE, JSON_ARRAY_STRING_DECODING, JSON_ARRAY_NUMBER_DECODING, JSON_ARRAY_END_OR_NEW_VALUE};
 
 // The currently decoded data value
-uint16_t jsonArrayValuePosition[JSON_MAX_LEVELS];
-uint32_t jsonNumberDecoded;
-uint8_t jsonStringValueDecodedPosition;
-char jsonStringValueDecoded[JSON_MAX_STRING_LENGTH];
+static uint16_t jsonArrayValuePosition[JSON_MAX_LEVELS];
+static uint32_t jsonNumberDecoded;
+static uint8_t jsonStringValueDecodedPosition;
+static char jsonStringValueDecoded[JSON_MAX_STRING_LENGTH];
 
 // This will contain the decoded string used to determine which value will be modified by the JSON
-char jsonDecodedString[JSON_MAX_LEVELS][JSON_MAX_STRING_LENGTH];
-uint8_t jsonDecodedStringPosition;
+static char jsonDecodedString[JSON_MAX_LEVELS][JSON_MAX_STRING_LENGTH];
+static uint8_t jsonDecodedStringPosition;
 
 // This contains the state for each level of decoding
-enum JsonState jsonObjectStates[JSON_MAX_LEVELS];
+static enum JsonState jsonObjectStates[JSON_MAX_LEVELS];
 
 // This is the state of the main level of decoding, it detects the start and the end of the JSON and initiate the first object
-enum JsonState jsonMainDecoderState = JSON_IDLE;
+static enum JsonState jsonMainDecoderState = JSON_IDLE;
 
+// The current level increase with each '{' and decrease with each '}'
 static uint8_t jsonCurrentLevel;
 
-// ------------------------------------------------------------------
-// General 
+static JsonObject_t *currentObject;
+static JsonObject_t *objectsStack[JSON_MAX_LEVELS];
 
-typedef struct General_Decoded_t{
-	char name[JSON_MAX_STRING_LENGTH];
-	JsonNumber32_t pwm_period;
-} GeneralConfig;
-
-GeneralConfig generalConfig = {
-	"General",
-	{"PWM Period", 0, 0}
-};
-
-// Fill this array with the numbers uin16_t we want to monitor with JSON
-JsonNumber32_t *jsonGeneralNumbers[] = {
-	&(generalConfig.pwm_period)
-};
-
-void generalObjectReceived();
-
-JsonObject_t generalJSON = {
-	"General",
-	1, jsonGeneralNumbers,
-	0, NULL,
-	0, NULL,
-	0, NULL,
-	generalObjectReceived
-};
-
-
-// ------------------------------------------------------------------
-// Main Object
-
-JsonObject_t *jsonMainObjects[] = {
-	&ledJSON,
-	&generalJSON
-};
-
-JsonObject_t mainJson = {
-	"",
-	0, NULL, 0, NULL, 0, NULL,
-	2, jsonMainObjects
-};
-
-JsonObject_t *currentObject;
-JsonObject_t *objectsStack[JSON_MAX_LEVELS];
-
-// End of JSON objects initialisation
-// ------------------------------------------------------------------
-
-
-
-void generalObjectReceived()
+void json_setTargetObject(JsonObject_t* object)
 {
-	// Debug -> send back the data read
-	VCP_SendString("General : ");
+	currentObject = object;
+}
 
-	VCP_SendJsonObjectReceivedValues(currentObject);
+static void jsonStringReceived()
+{
+	if(currentObject && currentObject->stringReceived)
+		currentObject->stringReceived(jsonDecodedString[jsonCurrentLevel], jsonStringValueDecoded);
+}
+
+static void jsonNumberReceived()
+{
+	if(currentObject && currentObject->numberReceived)
+		currentObject->numberReceived(jsonDecodedString[jsonCurrentLevel], jsonNumberDecoded);
+}
+
+static void jsonStartOfObject()
+{
+	objectsStack[jsonCurrentLevel] = currentObject;
+
+	if(currentObject && currentObject->objectStart)
+		currentObject = currentObject->objectStart(jsonDecodedString[jsonCurrentLevel]);
+	else
+		currentObject = NULL;
 }
 
 
-void jsonResetObjectsFlags(JsonObject_t *object)
+static void jsonArrayStringReceived()
 {
-	uint8_t i;
-
-	for(i = 0; i < object->numbers_count; i++)
-	{
-		object->numbers[i]->flag = 0;
-	}
-
-	for(i = 0; i < object->strings_count; i++)
-	{
-		object->strings[i]->flag = 0;
-	}
-
-	for(i = 0; i < object->arrays_count; i++)
-	{
-		object->arrays[i]->flag = 0;
-	}
+	if(currentObject && currentObject->arrayStringReceived)
+		currentObject->arrayStringReceived(jsonDecodedString[jsonCurrentLevel], jsonStringValueDecoded, jsonArrayValuePosition[jsonCurrentLevel]);
 }
 
-
-void jsonVCPSendObjectStack()
+static void jsonArrayNumberReceived()
 {
-	uint8_t i = 0;
-
-	VCP_SendString(jsonDecodedString[0]);
-
-	for(i = 1; i <= jsonCurrentLevel; i++)
-	{
-		VCP_SendString(", ");
-		VCP_SendString(jsonDecodedString[i]);
-	}
-
-	VCP_SendString(" : ");
+	if(currentObject && currentObject->arrayNumberReceived)
+		currentObject->arrayNumberReceived(jsonDecodedString[jsonCurrentLevel], jsonNumberDecoded, jsonArrayValuePosition[jsonCurrentLevel]);
 }
 
+static void jsonArrayStartOfObject()
+{
+	objectsStack[jsonCurrentLevel] = currentObject;
 
+	if(currentObject && currentObject->arrayObjectStart)
+		currentObject = currentObject->arrayObjectStart(jsonDecodedString[jsonCurrentLevel], jsonArrayValuePosition[jsonCurrentLevel]);
+	else
+		currentObject = NULL;
+}
+
+/*
 void jsonStringReceived()
 {
 	uint8_t i;
@@ -161,78 +117,11 @@ void jsonStringReceived()
 	}
 }
 
-void jsonNumberReceived()
-{
-	uint8_t i;
-
-	if(!currentObject)
-		return;
-
-	for(i = 0; i < currentObject->numbers_count; i++)
-	{
-		if(strcmp(jsonDecodedString[jsonCurrentLevel], currentObject->numbers[i]->name) == 0)
-		{
-			currentObject->numbers[i]->value = jsonNumberDecoded;
-			currentObject->numbers[i]->flag = 1;
-		}
-	}
-}
-
-void jsonArrayValueReceived()
-{
-	uint8_t i;
-
-	if(!currentObject)
-		return;
-
-	for(i = 0; i < currentObject->arrays_count; i++)
-	{
-		if(strcmp(jsonDecodedString[jsonCurrentLevel], currentObject->arrays[i]->name) == 0)
-		{
-			currentObject->arrays[i]->values[jsonArrayValuePosition[jsonCurrentLevel]] = jsonNumberDecoded;
-			currentObject->arrays[i]->flag = 1;
-		}
-	}
-}
-
-void jsonStartOfObject()
-{
-	uint8_t i;
-
-	objectsStack[jsonCurrentLevel] = currentObject;
-
-	if(!currentObject)
-		return;
-
-	for(i = 0; i < currentObject->objects_count; i++)
-	{
-		if(strcmp(jsonDecodedString[jsonCurrentLevel], currentObject->objects[i]->name) == 0)
-		{
-			currentObject = currentObject->objects[i];
-			jsonResetObjectsFlags(currentObject);
-			return;
-		}
-	}
-
-	currentObject = NULL;
-}
-
-
-void jsonObjectReceived()
-{
-	// Call the object function handler
-	if(currentObject && currentObject->objectReceived != NULL)
-	{
-		currentObject->objectReceived();
-	}
-
-	// Select the new active object
-	currentObject = objectsStack[jsonCurrentLevel-1];
-}
+*/
 
 
 // We will receive all characters since an object has been detected. The first character will be "{" and we have to detect the end and report back
-enum JsonObjectResult jsonParseObject(char c, uint8_t currentLevel)
+static enum JsonObjectResult jsonParseObject(char c, uint8_t currentLevel)
 {
 	switch(jsonObjectStates[currentLevel])
 	{
@@ -289,7 +178,7 @@ enum JsonObjectResult jsonParseObject(char c, uint8_t currentLevel)
 		}
 		else if(c == '[')
 		{
-			jsonObjectStates[currentLevel] = JSON_ARRAY_DECODING;
+			jsonObjectStates[currentLevel] = JSON_ARRAY_CHOOSE_VALUE_TYPE;
 			jsonArrayValuePosition[currentLevel] = 0;
 			jsonNumberDecoded = 0;
 		}
@@ -351,20 +240,66 @@ enum JsonObjectResult jsonParseObject(char c, uint8_t currentLevel)
 		}
 		break;
 
-	// Only support number arrays decoding
-	case JSON_ARRAY_DECODING:
 
-		if(c == ']')
+	case JSON_ARRAY_CHOOSE_VALUE_TYPE:
+		if(c == '{')
 		{
-			jsonArrayValueReceived();
-
-			jsonObjectStates[currentLevel] = JSON_END_OR_NEW_VALUE;
+			jsonObjectStates[currentLevel] = JSON_ARRAY_END_OR_NEW_VALUE;
+			return JSON_NEW_OBJECT;
 		}
-		else if(c == ',')
+		else if(c == '"')
 		{
-			jsonArrayValueReceived();
+			jsonObjectStates[currentLevel] = JSON_ARRAY_STRING_DECODING;
+			jsonStringValueDecodedPosition = 0;
+		}
+		else if(c == '[')
+		{
+			// No arrays in arrays
+		}
+		else if(c >= '0' && c <= '9')
+		{
+			jsonObjectStates[currentLevel] = JSON_ARRAY_NUMBER_DECODING;
+			// Store the first digit in the decoded value (-48 : refer to ASCII table)
+			jsonNumberDecoded = c - 48;
+		}
+		break;
+
+	case JSON_ARRAY_STRING_DECODING:
+		if(c == '"')
+		{
+			// Add end of string character
+			jsonStringValueDecoded[jsonStringValueDecodedPosition] = '\0';
+
+			// Validate data
+			jsonArrayStringReceived();
+
+			jsonObjectStates[currentLevel] = JSON_ARRAY_END_OR_NEW_VALUE;
+		}
+		else
+		{
+			// Verify we do not overflow our text data
+			if(jsonStringValueDecodedPosition < JSON_MAX_STRING_LENGTH - 1)
+			{
+				jsonStringValueDecoded[jsonStringValueDecodedPosition] = c;
+				jsonStringValueDecodedPosition++;
+			}
+		}
+		break;
+
+	case JSON_ARRAY_NUMBER_DECODING:
+		// A new value will be given for this level
+		if(c == ',')
+		{
+			// Validate number
+			jsonArrayNumberReceived();
+			jsonObjectStates[currentLevel] = JSON_ARRAY_CHOOSE_VALUE_TYPE;
 			jsonArrayValuePosition[currentLevel]++;
-			jsonNumberDecoded = 0;
+		}
+		else if(c == ']')
+		{
+			// Validate number
+			jsonArrayNumberReceived();
+			jsonObjectStates[currentLevel] = JSON_END_OR_NEW_VALUE;
 		}
 		// Only the numbers characters are decoded as numbers
 		// Parse only unsigned integers numbers, decimal point and sign are ignored
@@ -374,8 +309,21 @@ enum JsonObjectResult jsonParseObject(char c, uint8_t currentLevel)
 			// Subtract 48 to c to get the actual number value (ASCII table)
 			jsonNumberDecoded += (c - 48);
 		}
-
 		break;
+
+	case JSON_ARRAY_END_OR_NEW_VALUE:
+
+		if(c == ']')
+		{
+			jsonObjectStates[currentLevel] = JSON_END_OR_NEW_VALUE;
+			jsonArrayValuePosition[currentLevel] = 0;
+		}
+		else if(c == ',')
+		{
+			jsonArrayValuePosition[currentLevel]++;
+		}
+		break;
+
 
 	case JSON_END_OR_NEW_VALUE:
 		// A new value will be given for this level
@@ -400,8 +348,6 @@ enum JsonObjectResult jsonParseObject(char c, uint8_t currentLevel)
 }
 
 
-
-
 void jsonDecoding(uint8_t* buf, uint16_t len)
 {
 	uint16_t index;
@@ -420,12 +366,12 @@ void jsonDecoding(uint8_t* buf, uint16_t len)
 			{
 				// Start of a json file
 				jsonMainDecoderState = JSON_MAIN_OBJECT;
+				currentObject = &jsonMainObject;
 
 				// Initialise the first object level
 				jsonCurrentLevel = 0;
 				jsonObjectStates[jsonCurrentLevel] = JSON_START;
-				currentObject = &mainJson;
-				jsonResetObjectsFlags(currentObject);
+				jsonArrayValuePosition[0] = 0;
 			}
 			break;
 
@@ -442,8 +388,8 @@ void jsonDecoding(uint8_t* buf, uint16_t len)
 				}
 				else
 				{
-					jsonObjectReceived();
 					jsonCurrentLevel--;
+					currentObject = objectsStack[jsonCurrentLevel];
 				}
 			}
 			// A new object has been detected
@@ -455,7 +401,15 @@ void jsonDecoding(uint8_t* buf, uint16_t len)
 				}
 				else
 				{
-					jsonStartOfObject();
+					if(jsonObjectStates[jsonCurrentLevel] == JSON_ARRAY_END_OR_NEW_VALUE)
+					{
+						jsonArrayStartOfObject();
+					}
+					else
+					{
+						jsonStartOfObject();
+					}
+
 					jsonCurrentLevel++;
 					jsonObjectStates[jsonCurrentLevel] = JSON_START;
 				}

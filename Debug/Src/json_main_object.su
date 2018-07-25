@@ -1,0 +1,6 @@
+json_main_object.c:30:22:objectStart	16	static
+json_main_object.c:35:22:arrayObjectStart	16	static
+json_main_object.c:50:13:numberReceived	16	static
+json_main_object.c:55:13:stringReceived	16	static
+json_main_object.c:60:13:arrayNumberReceived	24	static
+json_main_object.c:65:13:arrayStringReceived	24	static

@@ -8,7 +8,7 @@
 #ifndef VCP_COMMUNICATION_H_
 #define VCP_COMMUNICATION_H_
 
-#include <json_decoder.h>
+#include <json/json_decoder.h>
 #include <stdint.h>
 
 /* Define size for the receive and transmit buffer over CDC */

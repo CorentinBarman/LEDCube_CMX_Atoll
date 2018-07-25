@@ -49,11 +49,11 @@
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
 #include "stm32f4xx_hal.h"
-#include "usb_device.h"
+#include "usb/usb_device.h"
 
 /* USER CODE BEGIN Includes */
 
-#include "vcp_communication.h"
+#include "json/vcp_communication.h"
 #include "sequence.h"
 
 /* USER CODE END Includes */

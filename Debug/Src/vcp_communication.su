@@ -1,5 +1,4 @@
-vcp_communication.c:23:6:VCP_SendJsonObjectReceivedValues	72	static
-vcp_communication.c:52:6:VCP_SendString	24	static
-vcp_communication.c:65:6:VCP_SendBuffer	16	static
-vcp_communication.c:90:8:VCP_Receive_FS	16	static
-vcp_communication.c:120:8:VCP_retrieveInputData	24	static
+vcp_communication.c:24:6:VCP_SendString	24	static
+vcp_communication.c:37:6:VCP_SendBuffer	16	static
+vcp_communication.c:62:8:VCP_Receive_FS	16	static
+vcp_communication.c:92:8:VCP_retrieveInputData	24	static

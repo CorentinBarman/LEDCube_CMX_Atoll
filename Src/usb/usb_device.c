@@ -49,11 +49,11 @@
 
 /* Includes ------------------------------------------------------------------*/
 
-#include "usb_device.h"
+#include "usb/usb_device.h"
 #include "usbd_core.h"
-#include "usbd_desc.h"
+#include "usb/usbd_desc.h"
 #include "usbd_cdc.h"
-#include "usbd_cdc_if.h"
+#include "usb/usbd_cdc_if.h"
 
 /* USER CODE BEGIN Includes */
 

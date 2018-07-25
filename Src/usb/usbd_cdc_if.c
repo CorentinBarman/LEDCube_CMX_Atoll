@@ -48,11 +48,11 @@
   */
 
 /* Includes ------------------------------------------------------------------*/
-#include "usbd_cdc_if.h"
+#include <json/vcp_communication.h>
+#include "usb/usbd_cdc_if.h"
 
 /* USER CODE BEGIN INCLUDE */
 
-#include "vcp_communication.h"
 
 /* USER CODE END INCLUDE */
 

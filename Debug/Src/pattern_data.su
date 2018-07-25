@@ -1,0 +1,9 @@
+pattern_data.c:40:22:objectStart	16	static
+pattern_data.c:45:22:arrayObjectStart	16	static
+pattern_data.c:50:13:numberReceived	16	static
+pattern_data.c:55:13:stringReceived	16	static
+pattern_data.c:60:13:arrayNumberReceived	24	static
+pattern_data.c:68:13:arrayStringReceived	24	static
+pattern_data.c:73:15:patternData_getJsonObject	4	static
+pattern_data.c:79:6:patternData_setDataIndex	16	static
+pattern_data.c:94:13:addValueToCurrentPattern	16	static

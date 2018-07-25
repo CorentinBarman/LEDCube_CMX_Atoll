@@ -6,10 +6,9 @@
  */
 
 
+#include <json/vcp_communication.h>
 #include <led.h>
 #include "main.h"
-#include "vcp_communication.h"
-
 #include <memory.h>
 
 #define MAX_LED_CHANNELS 20
@@ -29,107 +28,9 @@ typedef struct _led_t{
 	uint8_t pattern_on;
 } led_t;
 
-// Store decoded values for easy reference
-typedef struct _ledConfig_t{
-	JsonString_t name;
-	JsonNumber32_t index;
-	JsonNumber32_t pwm_duty;
-	JsonNumber32_t pattern_length;
-	JsonNumber32_t pattern_interval;
-	JsonArray16_t pattern_data;
-
-	// Reserve memory for the real pattern data
-	uint16_t _pattern_data[MAX_PATTERN_LENGTH];
-} ledConfig_t;
-
-// Init of the led config struct -> Define the text we want to detect
-static ledConfig_t ledConfig = {
-	{"Name", "", 0},
-	{"Index", 0, 0},
-	{"PWM Duty", 0, 0},
-	{"Pattern Length", 0, 0},
-	{"Pattern Interval", 0, 0},
-	{"Pattern Data", ledConfig._pattern_data, 0}
-};
-
-// Fill this array with the numbers uin16_t we want to monitor with JSON
-static JsonNumber32_t *jsonLedNumbers[] = {
-	&(ledConfig.index),
-	&(ledConfig.pattern_interval),
-	&(ledConfig.pattern_length),
-	&(ledConfig.pwm_duty)
-};
-
-static JsonString_t *jsonLedStrings[] = {
-	&(ledConfig.name)
-};
-
-static JsonArray16_t *jsonLedArrays[] = {
-	&(ledConfig.pattern_data)
-};
-
-void LED_ObjectReceived();
-
-JsonObject_t ledJSON = {
-	"LED",
-	4, jsonLedNumbers,
-	1, jsonLedStrings,
-	1, jsonLedArrays,
-	0, NULL,
-	LED_ObjectReceived
-};
 
 static led_t leds[MAX_LED_CHANNELS];
 uint8_t testMeasureLED;
-
-
-void LED_ObjectReceived()
-{
-	char buffer[50];
-
-	// The index is necessary to modify either LED
-	if(ledConfig.index.flag)
-	{
-		if(ledConfig.pwm_duty.flag)
-		{
-			LED_change_PWM_duty(ledConfig.index.value, ledConfig.pwm_duty.value);
-		}
-
-		if(ledConfig.pattern_length.flag)
-		{
-			LED_change_pattern_data(ledConfig.index.value, ledConfig.pattern_length.value, ledConfig.pattern_data.values);
-		}
-
-		if(ledConfig.pattern_interval.flag)
-		{
-			LED_change_pattern_interval(ledConfig.index.value, ledConfig.pattern_interval.value);
-		}
-	}
-
-	// Debug -> send back the data read
-	VCP_SendString("LED : ");
-
-	//VCP_SendCurrentObjectReceivedValues();
-
-	if(ledConfig.pattern_length.flag && ledConfig.pattern_data.flag)
-	{
-		uint16_t i;
-		VCP_SendString("\r\n\t");
-		VCP_SendString(ledConfig.pattern_data.name);
-		VCP_SendString(" : \r\n\t\t");
-
-		for(i = 0; i < ledConfig.pattern_length.value; i++)
-		{
-			itoa(ledConfig.pattern_data.values[i], buffer, 10);
-			VCP_SendString(buffer);
-
-			if(i != ledConfig.pattern_length.value-1)
-				VCP_SendString(", ");
-		}
-	}
-
-	VCP_SendString("\r\n");
-}
 
 
 void LED_init_for_measures()

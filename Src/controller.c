@@ -6,13 +6,13 @@
  */
 
 #include <controller.h>
-#include <json_decoder.h>
+#include <json/json_decoder.h>
+#include <json/vcp_communication.h>
 #include <led.h>
 #include "main.h"
 #include <stdint.h>
-#include "usbd_cdc_if.h"
+#include "usb/usbd_cdc_if.h"
 #include "assert.h"
-#include "vcp_communication.h"
 #include "sequence.h"
 
 #define VCP_BUFFER_SIZE 100

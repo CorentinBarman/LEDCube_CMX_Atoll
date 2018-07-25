@@ -5,8 +5,8 @@
  *      Author: coren
  */
 
-#include "vcp_communication.h"
-#include "usbd_cdc_if.h"
+#include <json/vcp_communication.h>
+#include "usb/usbd_cdc_if.h"
 
 
 static struct
@@ -20,34 +20,6 @@ static struct
 
 extern USBD_HandleTypeDef hUsbDeviceFS;
 
-void VCP_SendJsonObjectReceivedValues(JsonObject_t *object)
-{
-	uint8_t i;
-	char dst[JSON_MAX_STRING_LENGTH];
-
-	for(i = 0; i < object->numbers_count; i++)
-	{
-		if(object->numbers[i]->flag)
-		{
-			VCP_SendString("\r\n\t");
-			VCP_SendString(object->numbers[i]->name);
-			VCP_SendString(" : ");
-			itoa(object->numbers[i]->value, dst, 10);
-			VCP_SendString(dst);
-		}
-	}
-
-	for(i = 0; i < object->strings_count; i++)
-	{
-		if(object->strings[i]->flag)
-		{
-			VCP_SendString("\r\n\t");
-			VCP_SendString(object->strings[i]->name);
-			VCP_SendString(" : ");
-			VCP_SendString(object->strings[i]->value);
-		}
-	}
-}
 
 void VCP_SendString(char* string)
 {
