@@ -13,7 +13,8 @@
 #include <stdint.h>
 #include "usb/usbd_cdc_if.h"
 #include "assert.h"
-#include "sequence.h"
+
+#include "data/sequence.h"
 
 #define VCP_BUFFER_SIZE 100
 
@@ -27,7 +28,7 @@ void UserCode_Init()
 	HAL_GPIO_WritePin(LD5_GPIO_Port, LD5_Pin, GPIO_PIN_SET);
 	HAL_GPIO_WritePin(LD6_GPIO_Port, LD6_Pin, GPIO_PIN_SET);
 
-	LED_init_for_measures();
+	//LED_init_for_measures();
 	//sequence_InitTestSequence();
 }
 

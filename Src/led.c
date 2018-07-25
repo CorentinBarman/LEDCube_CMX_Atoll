@@ -12,7 +12,6 @@
 #include <memory.h>
 
 #define MAX_LED_CHANNELS 20
-#define MAX_PATTERN_LENGTH 1000
 
 #define TEST_LED
 

@@ -54,7 +54,6 @@
 /* USER CODE BEGIN Includes */
 
 #include "json/vcp_communication.h"
-#include "sequence.h"
 
 /* USER CODE END Includes */
 
@@ -98,10 +97,6 @@ static void MX_TIM6_Init(void);
 
 void HAL_TIM_MspPostInit(TIM_HandleTypeDef *htim);
                                 
-                                
-                                
-                                
-                                
 
 /* USER CODE BEGIN PFP */
 /* Private function prototypes -----------------------------------------------*/
@@ -115,8 +110,8 @@ uint8_t tim6_irq_flag = 0;
 void tim6_IRQ()
 {
 	// Called every millisecond
-	LED_timer_interval_irq();
-	sequence_timer_IRQ();
+	//LED_timer_interval_irq();
+	//sequence_timer_IRQ();
 }
 
 void change_PWM_duty(uint8_t led, uint16_t duty)

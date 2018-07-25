@@ -1,13 +1,14 @@
 /*
- * json_main_object.c
+ * json_sequence.c
  *
- *  Created on: 24 juil. 2018
+ *  Created on: 25 juil. 2018
  *      Author: coren
  */
 
-#include <json/json_decoder.h>
-#include <json/json_pattern_data.h>
-#include <json/json_sequence.h>
+#include "json/json_sequence.h"
+#include "json/json_pattern.h"
+#include "data/sequence.h"
+
 #include <stdlib.h>
 #include <string.h>
 
@@ -18,7 +19,7 @@ static void stringReceived(char* name, char* string);
 static void arrayNumberReceived(char* name, uint32_t number, uint16_t index);
 static void arrayStringReceived(char* name, char* string, uint16_t index);
 
-JsonObject_t jsonMainObject = {
+static JsonObject_t jsonObject_Sequence = {
 		&objectStart,
 		&arrayObjectStart,
 		&numberReceived,
@@ -35,15 +36,15 @@ static JsonObject_t* objectStart(char* name)
 
 static JsonObject_t* arrayObjectStart(char* name, uint16_t index)
 {
-	if(strcmp(name, "PatternDatas") == 0)
+	if(strcmp(name, "Patterns") == 0)
 	{
-		jsonPatternData_setDataIndex(index);
-		return jsonPatternData_getJsonObject();
-	}
-	else if(strcmp(name, "Sequences") == 0)
-	{
-		jsonSequence_setIndex(index);
-		return jsonSequence_getJsonObject();
+		// Add the new pattern to the main list of patterns
+		jsonPattern_addNewPattern();
+
+		// Specifically add this pattern to the sequence list of patterns
+		sequence_addPattern(pattern_getCurrentPattern());
+
+		return jsonPattern_getJsonObject();
 	}
 
 	return NULL;
@@ -51,7 +52,10 @@ static JsonObject_t* arrayObjectStart(char* name, uint16_t index)
 
 static void numberReceived(char* name, uint32_t number)
 {
-
+	if(strcmp(name, "LedIndex") == 0)
+	{
+		sequence_setLedIndex(number);
+	}
 }
 
 static void stringReceived(char* name, char* string)
@@ -67,4 +71,20 @@ static void arrayNumberReceived(char* name, uint32_t number, uint16_t index)
 static void arrayStringReceived(char* name, char* string, uint16_t index)
 {
 
+}
+
+JsonObject_t* jsonSequence_getJsonObject()
+{
+	return &jsonObject_Sequence;
+}
+
+void jsonSequence_setIndex(uint16_t index)
+{
+	sequence_setIndex(index);
+
+	// If it is the first sequence, then we reset the pattern list too
+	if(index == 0)
+	{
+		jsonPattern_resetPatternCount();
+	}
 }

@@ -6,29 +6,43 @@
  */
 
 
-#include "sequence.h"
-#include "pattern.h"
+#include "data/sequence.h"
+#include "data/pattern.h"
 #include "led.h"
 
-#define MAX_PATTERNS 200
+#define MAX_SEQUENCES 20
 
-typedef struct _sequence_t{
-	pattern_t* patterns[MAX_PATTERNS];
+Sequence_t ledSequences[MAX_SEQUENCES];
+Sequence_t testSequence;
+static uint8_t sequenceIndex;
 
-	uint16_t current_pattern;
-	uint16_t pattern_counter;
-	uint16_t patterns_size;
+void sequence_setIndex(uint8_t index)
+{
+	if(index >= MAX_SEQUENCES)
+		sequenceIndex = 0;
+	else
+		sequenceIndex = index;
 
-	uint32_t interval_counter;
-	uint32_t duration_counter;
+	ledSequences[sequenceIndex].patterns_count = 0;
+}
 
-	uint8_t is_active;
-} sequence_t;
+void sequence_setLedIndex(uint8_t ledIndex)
+{
+	ledSequences[sequenceIndex].ledIndex = ledIndex;
+}
 
-sequence_t testSequence;
+void sequence_addPattern(Pattern_t *pattern)
+{
+	if(ledSequences[sequenceIndex].patterns_count < MAX_SEQUENCE_PATTERNS)
+	{
+		ledSequences[sequenceIndex].patterns[ledSequences[sequenceIndex].patterns_count] = pattern;
+		ledSequences[sequenceIndex].patterns_count++;
+	}
+}
 
 void sequence_InitTestSequence()
 {
+	/*
 	uint8_t i;
 	uint16_t patData1[] = {0, 1000, 2000, 3000, 4000, 5000, 6000, 7000, 8000, 9000};
 	uint16_t patData2[] = {9000, 8000, 7000, 6000, 5000, 4000, 3000, 2000, 1000, 0};
@@ -40,8 +54,8 @@ void sequence_InitTestSequence()
 	testSequence.duration_counter = 0;
 	testSequence.is_active = 1;
 
-	pattern_AddPatternData(0, 10, patData1);
-	pattern_AddPatternData(1, 10, patData2);
+	patternData_AddPatternData(0, patData1, 10);
+	patternData_AddPatternData(1, patData2, 10);
 
 	pattern_ModifyPattern(0, 0, 100, 5000, 0);
 	pattern_ModifyPattern(1, 0, 50, 5000, 0);
@@ -54,13 +68,14 @@ void sequence_InitTestSequence()
 	for(i = 0; i < 6; i++)
 	{
 		testSequence.patterns[i] = pattern_GetPattern(i);
-	}
+	}*/
 }
 
 
 
 void sequence_timer_IRQ()
 {
+	/*
 	if(testSequence.is_active)
 	{
 		testSequence.interval_counter++;
@@ -92,4 +107,5 @@ void sequence_timer_IRQ()
 			LED_change_PWM_duty(1, testSequence.patterns[testSequence.current_pattern]->patternData->data[testSequence.pattern_counter]);
 		}
 	}
+	*/
 }
