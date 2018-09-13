@@ -1,2 +1,3 @@
-controller.c:26:6:UserCode_Init	8	static
-controller.c:35:6:UserCode_While	8	static
+controller.c:35:13:CreateSequencesForMeasure	32	static
+controller.c:75:6:UserCode_Init	8	static
+controller.c:119:6:UserCode_While	8	static

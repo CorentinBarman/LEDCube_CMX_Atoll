@@ -56,7 +56,6 @@
 /* USER CODE BEGIN Includes */
 
 #include <stdint.h>
-#include "controller.h"
 
 /* USER CODE END Includes */
 
@@ -140,7 +139,6 @@
 
 /* USER CODE BEGIN Private defines */
 
-void change_PWM_duty(uint8_t led, uint16_t duty);
 void tim6_IRQ();
 
 /* USER CODE END Private defines */

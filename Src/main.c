@@ -49,11 +49,13 @@
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
 #include "stm32f4xx_hal.h"
-#include "usb/usb_device.h"
+#include "usb_device.h"
 
 /* USER CODE BEGIN Includes */
 
+#include "controller.h"
 #include "json/vcp_communication.h"
+#include "led.h"
 
 /* USER CODE END Includes */
 
@@ -97,6 +99,10 @@ static void MX_TIM6_Init(void);
 
 void HAL_TIM_MspPostInit(TIM_HandleTypeDef *htim);
                                 
+                                
+                                
+                                
+                                
 
 /* USER CODE BEGIN PFP */
 /* Private function prototypes -----------------------------------------------*/
@@ -111,79 +117,7 @@ void tim6_IRQ()
 {
 	// Called every millisecond
 	LED_timer_interval_irq();
-	//sequence_timer_IRQ();
 }
-
-void change_PWM_duty(uint8_t led, uint16_t duty)
-{
-	switch(led)
-	{
-	case 0:
-		__HAL_TIM_SET_COMPARE(&htim8, TIM_CHANNEL_1, duty);
-		break;
-	case 1:
-		__HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_1, duty);
-		break;
-	case 2:
-		__HAL_TIM_SET_COMPARE(&htim5, TIM_CHANNEL_4, duty);
-		break;
-	case 3:
-		__HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_3, duty);
-		break;
-	case 4:
-		__HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_3, duty);
-		break;
-	case 5:
-		__HAL_TIM_SET_COMPARE(&htim3, TIM_CHANNEL_1, duty);
-		break;
-	case 6:
-		__HAL_TIM_SET_COMPARE(&htim3, TIM_CHANNEL_3, duty);
-		break;
-	case 7:
-		__HAL_TIM_SET_COMPARE(&htim3, TIM_CHANNEL_4, duty);
-		break;
-	case 8:
-		__HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_2, duty);
-		break;
-	case 9:
-		__HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_4, duty);
-		break;
-	case 10:
-		__HAL_TIM_SET_COMPARE(&htim3, TIM_CHANNEL_2, duty);
-		break;
-	case 11:
-		__HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_1, duty);
-		break;
-	case 12:
-		__HAL_TIM_SET_COMPARE(&htim8, TIM_CHANNEL_3, duty);
-		break;
-	case 13:
-		__HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_4, duty);
-		break;
-	case 14:
-		__HAL_TIM_SET_COMPARE(&htim8, TIM_CHANNEL_4, duty);
-		break;
-	case 15:
-		__HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_2, duty);
-		break;
-	case 16:
-		__HAL_TIM_SET_COMPARE(&htim4, TIM_CHANNEL_2, duty);
-		break;
-	case 17:
-		__HAL_TIM_SET_COMPARE(&htim4, TIM_CHANNEL_3, duty);
-		break;
-	case 18:
-		__HAL_TIM_SET_COMPARE(&htim9, TIM_CHANNEL_1, duty);
-		break;
-	case 19:
-		__HAL_TIM_SET_COMPARE(&htim9, TIM_CHANNEL_2, duty);
-		break;
-	default:
-		break;
-	}
-}
-
-
 
 /* USER CODE END 0 */
 
@@ -205,8 +139,8 @@ int main(void)
 
   /* USER CODE BEGIN Init */
 
-
- HAL_GPIO_WritePin(EN_15V_GPIO_Port, EN_15V_Pin, GPIO_PIN_RESET);
+  // Turn off the power output to the LEDs while configuring
+  HAL_GPIO_WritePin(EN_15V_GPIO_Port, EN_15V_Pin, GPIO_PIN_RESET);
 
   /* USER CODE END Init */
 
@@ -235,42 +169,6 @@ int main(void)
   /* USER CODE BEGIN 2 */
 
   UserCode_Init();
-
-  // Enable timers for PWM
-	HAL_TIM_Base_Start(&htim1);
-	HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_1);
-	HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_2);
-	HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_3);
-	HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_4);
-	HAL_TIM_Base_Start(&htim2);
-	HAL_TIM_PWM_Start(&htim2, TIM_CHANNEL_1);
-	HAL_TIM_PWM_Start(&htim2, TIM_CHANNEL_2);
-	HAL_TIM_PWM_Start(&htim2, TIM_CHANNEL_3);
-	HAL_TIM_PWM_Start(&htim2, TIM_CHANNEL_4);
-	HAL_TIM_Base_Start(&htim3);
-	HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_1);
-	HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_2);
-	HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_3);
-	HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_4);
-	HAL_TIM_Base_Start(&htim4);
-	HAL_TIM_PWM_Start(&htim4, TIM_CHANNEL_2 );
-	HAL_TIM_PWM_Start(&htim4, TIM_CHANNEL_3);
-	HAL_TIM_Base_Start(&htim5);
-	HAL_TIM_PWM_Start(&htim5, TIM_CHANNEL_4);
-	HAL_TIM_Base_Start(&htim8);
-	HAL_TIM_PWM_Start(&htim8, TIM_CHANNEL_1);
-	HAL_TIM_PWM_Start(&htim8, TIM_CHANNEL_3);
-	HAL_TIM_PWM_Start(&htim8, TIM_CHANNEL_4);
-	HAL_TIM_Base_Start(&htim9);
-	HAL_TIM_PWM_Start(&htim9, TIM_CHANNEL_1);
-	HAL_TIM_PWM_Start(&htim9, TIM_CHANNEL_2);
-
-  // Activate power output for the LEDs
-  HAL_GPIO_WritePin(EN_15V_GPIO_Port, EN_15V_Pin, GPIO_PIN_SET);
-
-  //VCP_SendString("Connected !\r\n");
-
-  HAL_TIM_Base_Start_IT(&htim6);
 
   /* USER CODE END 2 */
 

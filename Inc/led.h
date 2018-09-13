@@ -12,6 +12,7 @@
 #include "data/sequence.h"
 #include <stdint.h>
 #include <stdlib.h>
+#include <stm32f4xx_hal.h>
 
 /**
  * @brief Used to link with the JSON decoder
@@ -22,9 +23,9 @@
 extern JsonObject_t ledJSON;
 
 void LED_changePWM_Duty(uint8_t index, uint16_t duty);
-void LED_timer_interval_irq();
-void LED_init_for_measures();
 void LED_startLedSequence(uint8_t ledIndex);
 void LED_setSequence(uint8_t index, Sequence_t *sequence);
+void LED_stopLedSequence(uint8_t ledIndex);
+void LED_timer_interval_irq();
 
 #endif /* LED_H_ */

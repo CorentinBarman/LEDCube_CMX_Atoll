@@ -49,11 +49,6 @@ static uint8_t jsonCurrentLevel;
 static JsonObject_t *currentObject;
 static JsonObject_t *objectsStack[JSON_MAX_LEVELS];
 
-void json_setTargetObject(JsonObject_t* object)
-{
-	currentObject = object;
-}
-
 static void jsonStringReceived()
 {
 	if(currentObject && currentObject->stringReceived)
@@ -98,26 +93,6 @@ static void jsonArrayStartOfObject()
 	else
 		currentObject = NULL;
 }
-
-/*
-void jsonStringReceived()
-{
-	uint8_t i;
-
-	if(!currentObject)
-		return;
-
-	for(i = 0; i < currentObject->strings_count; i++)
-	{
-		if(strcmp(jsonDecodedString[jsonCurrentLevel], currentObject->strings[i]->name) == 0)
-		{
-			strcpy(currentObject->strings[i]->value, jsonStringValueDecoded);
-			currentObject->strings[i]->flag = 1;
-		}
-	}
-}
-
-*/
 
 
 // We will receive all characters since an object has been detected. The first character will be "{" and we have to detect the end and report back

@@ -25,6 +25,5 @@ void VCP_SendString(char* string);
 int8_t VCP_retrieveInputData(uint8_t* Buf, uint32_t *Len);
 int8_t VCP_Receive_FS(uint8_t* Buf, uint32_t *Len);
 void VCP_SendBuffer(uint8_t* Buf, uint16_t Len);
-void VCP_SendString(char* string);
 
 #endif /* VCP_COMMUNICATION_H_ */

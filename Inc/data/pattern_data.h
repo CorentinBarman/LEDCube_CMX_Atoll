@@ -10,8 +10,8 @@
 
 #include <stdint.h>
 
-#define MAX_PATTERNS_DATA 100
-#define PATTERN_DATA_SIZE 20000
+#define MAX_PATTERNS_DATA 400
+#define PATTERN_DATA_SIZE 50000
 
 typedef struct _PatternData_t {
 	uint16_t *data;

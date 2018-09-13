@@ -7,7 +7,7 @@
 
 #include "data/pattern_data.h"
 
-PatternData_t patternDatas[MAX_PATTERNS_DATA];
+static PatternData_t patternDatas[MAX_PATTERNS_DATA];
 
 static uint16_t dataIndex;
 static uint16_t data[PATTERN_DATA_SIZE];

@@ -12,7 +12,7 @@
 
 #define MAX_SEQUENCES 20
 
-Sequence_t ledSequences[MAX_SEQUENCES];
+static Sequence_t ledSequences[MAX_SEQUENCES];
 static uint8_t sequenceIndex;
 
 void sequence_setIndex(uint8_t index)

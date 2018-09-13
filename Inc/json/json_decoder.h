@@ -28,6 +28,5 @@ typedef struct _JsonObject_t {
 extern JsonObject_t jsonMainObject;
 
 void jsonDecoding(uint8_t* buf, uint16_t len);
-void json_setTargetObject(JsonObject_t* object);
 
 #endif /* JSON_DECODER_H_ */
